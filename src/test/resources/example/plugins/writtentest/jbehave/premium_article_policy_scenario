@@ -1,0 +1,15 @@
+Given a premium article
+When pubdate is 10 days from now
+And user is anonymous_user
+Then access is false
+When pubdate is 10 days from now
+And user is registered_user
+Then access is true
+When pubdate is 40 days from now
+And user is anonymous_user
+Then access is true
+
+Given a non-premium article
+When pubdate is 10 days from now
+And user is anonymous_user
+Then access is true

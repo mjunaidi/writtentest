@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template-definition version="1.0" xmlns="http://www.polopoly.com/polopoly/cm/app/xml">
+  <input-template name="example.plugins.writtentest.PremiumArticle" label="Premium Article">
+    <policy>example.plugins.writtentest.PremiumArticlePolicy</policy>
+    <editor>com.polopoly.cm.app.widget.OAjaxTopPolicyWidget</editor>
+    <viewer>com.polopoly.cm.app.widget.OAjaxTopPolicyWidget</viewer>
+    <editor contextName="orchid_SEARCHITEM">example.widget.OSearchItemBaseWidget</editor>
+    <viewer contextName="orchid_SEARCHITEM">example.widget.OSearchItemBaseWidget</viewer>
+    <editor contextName="orchid_TOCENTRY">example.widget.OContentListEntryBasePolicyWidget</editor>
+    <viewer contextName="orchid_TOCENTRY">example.widget.OContentListEntryBasePolicyWidget</viewer>
+    <editor contextName="orchid_INBOXITEM">example.widget.OInboxEntryWidget</editor>
+    <viewer contextName="orchid_INBOXITEM">example.widget.OInboxEntryWidget</viewer>
+    <type>Article</type>
+    
+    <param name="templateIcon">document_text.png</param>
+    <param name="renderTemplateIconInSelect">true</param>
+    
+    <content-list name="topimages" input-template="example.ImageContentListWrapper" />
+    <content-list name="images" input-template="example.ImageContentListWrapper" />
+    <content-list name="default" input-template="example.ArticleContentListWrapper" />
+    <!-- This content list is created by the policy based on article comments -->
+    <content-list name="comments" />
+    <param name="ViewState_insert">false</param>
+    <param name="ViewState_refresh">true</param>
+    <param name="EditState_saveAndClose">true</param>
+    <param name="EditState_saveAndInsert">false</param>
+    <param name="EditState_saveAndFastInsert">false</param>
+    <param name="EditState_saveAndView">true</param>
+    <param name="EditState_saveAndEdit">true</param>
+    <param name="EditNewState_saveAndClose">false</param>
+    <param name="EditNewState_saveAndInsert">true</param>
+    <param name="EditNewState_saveAndFastInsert">false</param>
+    <param name="EditNewState_saveAndView">false</param>
+    <param name="EditNewState_saveTemporary">true</param>
+    <param name="ViewState_copy">true</param>
+    <layout name="menu" input-template="p.PageMenu">
+      <layout name="text" input-template="p.Page" label="cm.template.p.siteengine.StandardArticle.it.TextAndImages">
+        <param name="lazyInit">true</param>
+        <layout name="holder" input-template="p.ColumnHolder">
+          <layout name="textColumn" input-template="p.Column">
+              <field name="name" input-template="p.ContentName" label="cm.label.Title" required="true">
+                <param name="style">font-size: 16px; font-weight: bold; width: 95%;max-width:512px;</param>
+              </field>
+              <field name="premium" input-template="p.Checkbox" label="Premium Article">
+                <param name="checked">true</param>
+              </field>
+              <field name="lead" input-template="p.TextArea" label="cm.label.Lead">
+                <param name="rows">3</param>
+                <param name="cols">50</param>
+                <param name="style">font-size: 11px; font-weight: bold; width: 99%;max-width:512px;</param>
+                <param name="populateIndex">true</param>
+                <param name="indexField">true</param>
+                <param name="storeField">true</param>
+              </field>
+              <field name="body" input-template="p.FCKEditor" label="cm.label.Text">
+                <param name="width">99%</param>
+                <param name="height">300</param>
+                <param name="fckToolbar">SiteEngine</param>
+                <param name="CustomConfigurationsPath">/polopoly/js/fckeditor.js</param>
+                <param name="fckParameters">CustomConfigurationsPath,LinkBrowser,ImageBrowser,LinkUpload,ImageUpload</param>
+                <param name="showPasteButton">false</param>
+                <param name="LinkBrowser">false</param>
+                <param name="LinkUpload">false</param>
+                <param name="ImageBrowser">false</param>
+                <param name="ImageUpload">false</param>
+                <param name="populateIndex">true</param>
+                <param name="indexField">true</param>
+            </field>
+            <field name="topimages" input-template="p.ContentListEntryContainer" label="cm.template.p.siteengine.StandardArticle.it.topImage">
+              <param name="contentListName">topimages</param>
+            </field>
+            <field name="images" input-template="p.ContentListEntryContainer" label="cm.general.Images">
+              <param name="contentListName">images</param>
+            </field>
+            <field name="imageContentCreator" input-template="p.SimpleContentCreator">
+              <param name="insertTargetAlias">content</param>
+              <param name="askInsertTarget">false</param>
+              <param name="insertionContentListName">images</param>
+              <param name="askInsertionContentListName">false</param>
+              <param name="askContentListPosition">false</param>
+              <param name="insertPosition">top</param>
+              <param name="major">1</param>
+              <idparam name="inputTemplateId">
+                <externalid>example.Image</externalid>
+              </idparam>
+              <param name="createWithSecurityParent">true</param>
+              <param name="securityParentAlias">content</param>
+              <param name="createLabel">cm.action.CreateNewImage</param>
+            </field>            
+          </layout>
+          <layout name="categorizationColumn" input-template="p.Column">            
+            <field name="author" input-template="p.TextInput" label="cm.label.Author">
+                <param name="style">width:98%;max-width:250px;</param>
+            </field>
+            
+            <field name="publishedDate" input-template="p.OptionalDateTime" label="cm.general.PublishedDate">
+              <help>cm.template.p.siteengine.StandardArticle.it.PublishedDateHelp</help>
+              <param name="inlineHelp">true</param>
+              <param name="saveDefaultValue">commitTime</param>
+              <param name="showSeconds">false</param>
+            </field>
+            <field name="categorization" input-template="p.siteengine.Content.Categorization" label="Categorization">
+              <param name="categoryDimensionsAlias">sites</param>
+            </field>
+            <field name="categorizationSuggestion" input-template="p.ArticleCategorizationSuggestion"/>
+            <field name="related" input-template="p.ContentListEntryContainer" label="cm.general.RelatedArticles">
+              <param name="contentListName">default</param>
+            </field>
+          </layout>
+        </layout>
+      </layout>
+    </layout>
+    <output-templates mode="www">
+      <id>example.plugins.writtentest.PremiumArticle.ot</id>
+    </output-templates>
+  </input-template>
+  
+  <output-template name="example.plugins.writtentest.PremiumArticle.ot" input-template="p.siteengine.ArticleOutputTemplate">
+    <content-xml>
+      <component group="output/modelKeyMode" name="selected">no-cache</component>
+      <!-- add plugin reference -->
+      <contentref group="plugin" name="plugindef">
+        <contentid>
+          <major>Content</major>
+          <externalid>plugins.example.plugins.writtentest</externalid>
+        </contentid>
+      </contentref>
+      
+      <!-- link controller (if present) -->
+      <contentref group="output/controller" name="selected">
+        <contentid>
+          <externalid>p.siteengine.JavaClassRenderController</externalid>
+        </contentid>
+      </contentref>
+      <component group="output/controller/selected/renderControllerClass" name="value">example.plugins.writtentest.PremiumArticleController</component>
+            
+      <!-- link template file -->
+      <component group="output/renderer" name="templateFileName">example.plugins.writtentest.PremiumArticle.vm</component>
+      
+    </content-xml>
+  </output-template>
+
+</template-definition>
